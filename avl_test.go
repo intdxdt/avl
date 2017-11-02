@@ -42,6 +42,10 @@ func TestAVL(t *testing.T) {
 		}
 
 		g.Assert(tree.Search(1.81).Key).Equal(1.81)
+		g.Assert(tree.Contains(1.81)).IsTrue()
+		g.Assert(tree.Contains(1.817)).IsFalse()
+		g.Assert(tree.Contains(0.17)).IsFalse()
+		g.Assert(tree.Contains(0.71)).IsTrue()
 
 		treeArray := tree.ToArray()
 
