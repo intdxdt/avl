@@ -16,7 +16,7 @@ func (avl *AVL) height(node *bst.Node) int {
 }
 
 // update height
-func (avl *AVL) update_height(node *bst.Node) {
+func (avl *AVL) updateHeight(node *bst.Node) {
 	var l = avl.height(node.Left)
 	var r = avl.height(node.Right)
 	if l > r {
@@ -27,20 +27,20 @@ func (avl *AVL) update_height(node *bst.Node) {
 }
 
 //Rebalance BST Tree
-func (avl  *AVL) rebalance(node *bst.Node) {
+func (avl *AVL) rebalance(node *bst.Node) {
 	left := bst.NewBranch().AsLeft()
 	right := bst.NewBranch().AsRight()
 
 	for node != nil {
-		avl.update_height(node)
+		avl.updateHeight(node)
 		var balancefactor = avl.height(node.Right) - avl.height(node.Left)
 		//left heavy  --> rotate right
 		if -(balancefactor) > 1 {
-			avl.rotate_heavybranch(node, right)
+			avl.rotateHeavybranch(node, right)
 		}
 		//right heavy --> rotate left
 		if balancefactor > 1 {
-			avl.rotate_heavybranch(node, left)
+			avl.rotateHeavybranch(node, left)
 		}
 		node = node.Parent
 	}
@@ -49,12 +49,12 @@ func (avl  *AVL) rebalance(node *bst.Node) {
 /*
  rotate heavy branch to new branch
  */
-func (avl *AVL) rotate_heavybranch(node *bst.Node, tobranch *bst.Branch) {
+func (avl *AVL) rotateHeavybranch(node *bst.Node, tobranch *bst.Branch) {
 	//get heavy branch
 	var branch = tobranch.ConjBranch()
 	var n = node.GetNode(branch)
-	n_tobr, n_br := n.GetNode(tobranch), n.GetNode(branch)
-	if avl.height(n_tobr) > avl.height(n_br) {
+	nTobr, nBr := n.GetNode(tobranch), n.GetNode(branch)
+	if avl.height(nTobr) > avl.height(nBr) {
 		avl.rotate(n, branch)
 	}
 	avl.rotate(node, tobranch)
@@ -83,6 +83,6 @@ func (avl *AVL) rotate(node *bst.Node, tobranch *bst.Branch) {
 	}
 
 	//update heights
-	avl.update_height(node)
-	avl.update_height(heavychild)
+	avl.updateHeight(node)
+	avl.updateHeight(heavychild)
 }

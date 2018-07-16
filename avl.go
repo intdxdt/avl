@@ -11,8 +11,8 @@ type AVL struct {
     BST *bst.BST
 }
 
-//NewAVL- Creates a New AVL Tree
-func NewAVL(comparator cmp.Compare) *AVL {
+//New- Creates a New AVL Tree
+func New(comparator cmp.Compare) *AVL {
     return &AVL{BST: bst.NewBST(comparator)}
 }
 
@@ -27,9 +27,8 @@ func (avl *AVL) Search(val interface{}) *bst.Node {
 }
 
 //Checks for the presence of a value
-func (self *AVL) Contains(val interface{}) bool {
-    v := self.Search(val)
-    return v != nil
+func (avl *AVL) Contains(val interface{}) bool {
+    return avl.Search(val) != nil
 }
 
 //Insert into AVL
@@ -41,7 +40,7 @@ func (avl *AVL) Insert(item interface{}) *bst.Node {
 
 //Remove node with value at given key
 func (avl *AVL) Remove(val interface{}) (*bst.Node, *bst.Node) {
-    node, successorParent := avl.BST.Remove(val)
+    var node, successorParent = avl.BST.Remove(val)
     avl.rebalance(successorParent) //rebalance successor_parent
     return node, successorParent   //return deleted node, succ_parent
 }
@@ -112,7 +111,7 @@ func (avl *AVL) String() string {
 
 //Union of two trees
 func (avl *AVL) Union(other *AVL) *AVL {
-    var tree = NewAVL(avl.BST.Cmp)
+    var tree = New(avl.BST.Cmp)
     for _, o := range avl.BST.Union(other.BST) {
         tree.Insert(o)
     }
@@ -121,8 +120,8 @@ func (avl *AVL) Union(other *AVL) *AVL {
 
 //Intersection of two trees
 func (avl *AVL) Intersection(other *AVL) *AVL {
-    tree := NewAVL(avl.BST.Cmp)
-    vals := avl.BST.Intersection(other.BST)
+    var tree = New(avl.BST.Cmp)
+    var vals = avl.BST.Intersection(other.BST)
     for _, v := range vals {
         tree.Insert(v)
     }
@@ -131,8 +130,8 @@ func (avl *AVL) Intersection(other *AVL) *AVL {
 
 //Difference - intersection of two trees
 func (avl *AVL) Difference(other *AVL) *AVL {
-    tree := NewAVL(avl.BST.Cmp)
-    diff := avl.BST.Difference(other.BST)
+    var tree = New(avl.BST.Cmp)
+    var diff = avl.BST.Difference(other.BST)
     for _, v := range diff {
         tree.Insert(v)
     }
@@ -141,8 +140,8 @@ func (avl *AVL) Difference(other *AVL) *AVL {
 
 //SymDifference - intersection of two trees
 func (avl *AVL) SymDifference(other *AVL) *AVL {
-    tree := NewAVL(avl.BST.Cmp)
-    diff := avl.BST.XOR(other.BST)
+    var tree = New(avl.BST.Cmp)
+    var diff = avl.BST.XOR(other.BST)
     for _, v := range diff {
         tree.Insert(v)
     }

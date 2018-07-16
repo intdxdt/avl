@@ -20,7 +20,7 @@ func TestAVL(t *testing.T) {
 		1.81, 0.91, 0.81, 0.71, 0.88, 0.82, 0.81,
 	}
 
-	var uniq_array = make([]float64, 0)
+	var uniqArray = make([]float64, 0)
 	var set = skiplist.NewSkipList(len(array), false, cmp.F64)
 	for i := range array {
 		set.Insert(array[i])
@@ -28,11 +28,11 @@ func TestAVL(t *testing.T) {
 
 	//uniq array
 	set.Each(func(o interface{}, i int) {
-		uniq_array = append(uniq_array, o.(float64))
+		uniqArray = append(uniqArray, o.(float64))
 	})
 
 	g.Describe("AVL - Balanced Binary Search Tree", func() {
-		var tree = NewAVL(cmp.F64)
+		var tree = New(cmp.F64)
 		g.Assert(tree != nil).IsTrue()
 
 		tree.Insert(0.0)
@@ -49,13 +49,13 @@ func TestAVL(t *testing.T) {
 
 		treeArray := tree.ToArray()
 
-		g.Assert(len(treeArray)).Eql(len(uniq_array))
+		g.Assert(len(treeArray)).Eql(len(uniqArray))
 		for i := range treeArray {
-			g.Assert(treeArray[i].(float64)).Equal(uniq_array[i])
+			g.Assert(treeArray[i].(float64)).Equal(uniqArray[i])
 		}
 
-		var trvArray = make([]float64, 0)
-		var itemArray = make([]float64, 0)
+		var trvArray []float64
+		var itemArray []float64
 		tree.Traverse(func(n interface{}) bool {
 			trvArray = append(trvArray, n.(float64))
 			return true
@@ -66,8 +66,8 @@ func TestAVL(t *testing.T) {
 			return true
 		})
 
-		g.Assert(uniq_array).Eql(trvArray)
-		g.Assert(uniq_array).Eql(itemArray)
+		g.Assert(uniqArray).Eql(trvArray)
+		g.Assert(uniqArray).Eql(itemArray)
 
 		g.Assert(tree.BST.Root.Height).Equal(4)
 		g.Assert(tree.BST.Root.Key).Equal(float64(3))
@@ -137,9 +137,9 @@ func TestAVL(t *testing.T) {
 func TestAVL_Set(t *testing.T) {
 	g := goblin.Goblin(t)
 	g.Describe("AVL - Set Opt", func() {
-		var tree1 = NewAVL(cmp.Int)
-		var tree2 = NewAVL(cmp.Int)
-		var tree3 = NewAVL(cmp.Int)
+		var tree1 = New(cmp.Int)
+		var tree2 = New(cmp.Int)
+		var tree3 = New(cmp.Int)
 
 		tree1.Insert(1)
 		tree1.Insert(0)
@@ -164,12 +164,12 @@ func TestAVL_Set(t *testing.T) {
 		tree3.Insert(41)
 		tree3.Insert(92)
 
-		utree := tree1.Union(tree2)
-		intertree := tree1.Intersection(tree2)
-		d1tree := tree1.Difference(tree2)
-		d2tree := tree2.Difference(tree1)
-		symtree := tree2.SymDifference(tree1)
-		uset := make([]interface{}, 0)
+		var utree = tree1.Union(tree2)
+		var intertree = tree1.Intersection(tree2)
+		var d1tree = tree1.Difference(tree2)
+		var d2tree = tree2.Difference(tree1)
+		var symtree = tree2.SymDifference(tree1)
+		var uset []interface{}
 		for _, v := range []int{0, 1, 4, 5, 7, 9, 10, 13, 17, 20, 91} {
 			uset = append(uset, v)
 		}
@@ -190,11 +190,11 @@ func TestSetAVL(t *testing.T) {
 	g := goblin.Goblin(t)
 
 	g.Describe("BST - Binary Search Tree - Intersection", func() {
-		var tree1 = NewAVL(cmp.Int)
-		var tree2 = NewAVL(cmp.Int)
-		var tree3 = NewAVL(cmp.Int)
-		var tree4 = NewAVL(cmp.Int)
-		var tree5 = NewAVL(cmp.Int)
+		var tree1 = New(cmp.Int)
+		var tree2 = New(cmp.Int)
+		var tree3 = New(cmp.Int)
+		var tree4 = New(cmp.Int)
+		var tree5 = New(cmp.Int)
 
 		tree1.Insert(5)
 		tree1.Insert(1)
@@ -271,8 +271,8 @@ func TestSetAVL2(t *testing.T) {
 	g := goblin.Goblin(t)
 
 	g.Describe("BST - Binary Search Tree 2 - difference ", func() {
-		var tree1 = NewAVL(cmp.Int)
-		var tree2 = NewAVL(cmp.Int)
+		var tree1 = New(cmp.Int)
+		var tree2 = New(cmp.Int)
 
 		tree1.Insert(53)
 		tree1.Insert(33)
